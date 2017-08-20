@@ -4,4 +4,12 @@ Rails.application.routes.draw do
 
   root 'welcome#index'
 
+  #USER ROUTES
+  get 'my_portfolio', to: 'users#my_portfolio'
+  ############
+
+  #STOCK ROUTES
+  get 'search_stocks', to: 'stocks#search'
+  #############
+
 end
