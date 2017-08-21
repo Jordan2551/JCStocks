@@ -3,9 +3,9 @@ class StocksController < ApplicationController
   def search
     if params[:stock]
       #Attemps to first set the stock to the one in the db
-      @stock = Stock.find_by_ticker(params[:stock])
+      @stock = Stock.find_stock_in_db(params[:stock])
       #If the stock is not found, look up the stock through the service and set it
-      @stock ||= Stock.new_from_lookup(params[:stock])
+      @stock ||= Stock.find_stock_by_service(params[:stock])
     end
 
     if @stock

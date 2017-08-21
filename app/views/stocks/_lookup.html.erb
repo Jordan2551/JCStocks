@@ -1,6 +1,6 @@
 <div id="stock-lookup">
 
-<h3>Search for Stocks</h3>
+  <h3>Search for Stocks</h3>
 
   <!--Here we use a form_tag a form_for is for a specific model. This is just a basic form so we use form_tag-->
   <!--Additionally, this request will be done by AJAX; this means we have to supply: remote: true, method: :get, id:-->
@@ -24,8 +24,20 @@
         <strong>Symbol:</strong> <%= @stock.ticker %>
         <strong>Name:</strong> <%= @stock.name %>
         <strong>Price:</strong> <%= @stock.price %>
+        <% if current_user.can_add_stock?(@stock.ticker) %>
+            <%= link_to 'Add to my Stocks', user_stocks_path(user: current_user, stock_ticker: @stock.ticker,
+                                                             stock_id: @stock.id ? @stock.id : ''), class: 'btn btn-xs btn-success', method: :post %>
+        <% else %>
+        <span class="label label-default">Stock cannot be added because you have already added
+          <% if !current_user.under_stock_limit? %>
+              10 stocks
+          <% elsif current_user.stock_already_added?(@stock.ticker) %>
+              this stock
+          <% end %>
+        </span>
+        <% end %>
       </div>
   <% end %>
   <div id="stock-lookup-errors"></div>
 
-  </div>
+</div>
